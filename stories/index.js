@@ -2,23 +2,74 @@ import React from "react";
 
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-
 import "index.scss";
-
+//importing components 
 import Button from "components/Button";
+import DayListItem from "components/DayListItem";
+import DayList from "components/DayList";
 
 storiesOf("Button", module)
   .addParameters({
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
   })
+  //default button, no props
   .add("Base", () => <Button>Base</Button>)
+  //uses the confirm prop to apply the .button--confirm modifier class
   .add("Confirm", () => <Button confirm>Confirm</Button>)
+  //uses the danger prop to apply the .button--danger modifier classs
   .add("Danger", () => <Button danger>Cancel</Button>)
+  // uses the onClick prop to handle the button click event
   .add("Clickable", () => (
     <Button onClick={action("button-clicked")}>Clickable</Button>
   ))
+  //uses the disabled prop to apply the disabled attribute 
   .add("Disabled", () => (
     <Button disabled onClick={action("button-clicked")}>
       Disabled
     </Button>
+  ));
+
+
+storiesOf("DayListItem", module) //Initiates Storybook and registers our DayListItem component
+  // Provides the default background color for our component
+  .addParameters({
+    backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
+  })
+  // To define our stories, we call add() once for each of our test states to generate a story
+  .add("Unselected", () => <DayListItem name="Monday" spots={5} />)
+  .add("Selected", () => <DayListItem name="Monday" spots={5} selected />)
+  .add("Full", () => <DayListItem name="Monday" spots={0} />)
+  // action() allows us to create a callback that appears in the actions panel when clicked
+  .add("Clickable", () => (
+    <DayListItem name="Tuesday" setDay={action("setDay")} spots={5} />
+  ));
+
+// DayList Story
+const days = [
+  {
+    id: 1,
+    name: "Monday",
+    spots: 2,
+  },
+  {
+    id: 2,
+    name: "Tuesday",
+    spots: 5,
+  },
+  {
+    id: 3,
+    name: "Wednesday",
+    spots: 0,
+  },
+];
+
+storiesOf("DayList", module)
+  .addParameters({
+    backgrounds: [{ name: "dark", value: "#222f3e", default: true }],
+  })
+  .add("Monday", () => (
+    <DayList days={days} day={"Monday"} setDay={action("setDay")} />
+  ))
+  .add("Tuesday", () => (
+    <DayList days={days} day={"Tuesday"} setDay={action("setDay")} />
   ));

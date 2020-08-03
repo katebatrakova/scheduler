@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import DayList from "components/DayList";
 
 import "components/Application.scss";
 
 export default function Application(props) {
 
+  const [day, setDay] = useState("Monday")
 
   // DayList Story
   const days = [
@@ -39,8 +40,9 @@ export default function Application(props) {
           {/* imported DayList component acceprs 3 props:array,selected day, function.Same as in StoryBook */}
           <DayList
             days={days}
-            day={"Monday"}
-            setDay={day => console.log(day)}
+            day={day}
+            setDay={setDay}
+          // setDay={day => setDay(day)}
           />
 
         </nav>
@@ -51,7 +53,7 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
+        {/* Replace this with the schedule elements during the "The Scheduler" activity. */}
       </section>
     </main>
   );

@@ -16,11 +16,12 @@ const InterviewerList = (props) => {
   const parsedInterviewers = interviewers.map((interviewer) => {
     return (
       <InterviewerListItem
-        key={interviewer.id}
+        id={interviewer.id}
         name={interviewer.name}
         avatar={interviewer.avatar}
         selected={interviewer.id === props.interviewer}
-        setInterviewer={interviewer.setInterviewer}
+        // setInterviewer={interviewer.setInterviewer} //before
+        setInterviewer={(event) => props.setInterviewer(interviewer.id)} //after
       />
     );
   });

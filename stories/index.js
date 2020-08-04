@@ -9,6 +9,12 @@ import InterviewerListItem from "components/InterviewerListItem";
 import DayList from "components/DayList";
 import InterviewerList from "components/InterviewerList";
 import Appointment from "components/Appointment/index";
+import Header from "components/Appointment/Header";
+import Empty from "components/Appointment/Empty";
+import Show from "components/Appointment/Show";
+import Status from "components/Appointment/Status";
+import Confirm from "components/Appointment/Confirm";
+import Error from "components/Appointment/Error";
 
 storiesOf("Button", module)
   .addParameters({
@@ -143,9 +149,21 @@ storiesOf("InterviewerList", module)
 
 
 
+
+
 storiesOf("Appointment", module)
   .addParameters({
     backgrounds: [{ name: "white", value: "#fff", default: true }]
   })
   .add("Appointment", () => <Appointment />)
-  .add("Appointment", () => <Appointment time='12pm' />)
+  .add("Appointment with time", () => <Appointment time='12pm' />)
+  .add("Header", () => <Header time='12pm' />)
+  //appointment when it's empty
+  .add("Empty", () => <Empty onAdd={action("onAdd")} />)
+  .add("Show", () => <Show student="Lydia Miller-Jones" interviewer={interviewer} onEdit={action('onEdit')} onDelete={action('onDelete')} />)
+
+
+  //appointment  when it's booked
+  //when we want a user to confirm an action
+  //when it's loading
+  // when there is an error

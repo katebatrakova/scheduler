@@ -42,7 +42,6 @@ export default function Application(props) {
             days={days}
             day={day}
             setDay={setDay}
-          // setDay={day => setDay(day)}
           />
 
         </nav>

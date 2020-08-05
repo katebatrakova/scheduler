@@ -15,6 +15,7 @@ import Show from "components/Appointment/Show";
 import Status from "components/Appointment/Status";
 import Confirm from "components/Appointment/Confirm";
 import Error from "components/Appointment/Error";
+import Form from "components/Appointment/Form";
 
 storiesOf("Button", module)
   .addParameters({
@@ -142,8 +143,8 @@ storiesOf("InterviewerList", module)
   .add("Preselected", () => (
     <InterviewerList
       interviewers={interviewers}
-      interviewer={3}
-      setInterviewer={action("setInterviewer")}
+      value={3}
+      onChange={action("setInterviewer")}
     />
   ));
 
@@ -157,13 +158,20 @@ storiesOf("Appointment", module)
   })
   .add("Appointment", () => <Appointment />)
   .add("Appointment with time", () => <Appointment time='12pm' />)
+  // displays the time for the appointment
   .add("Header", () => <Header time='12pm' />)
-  //appointment when it's empty
+  //appointment when it's empty. Empty allows a user to choose which time slot to book
   .add("Empty", () => <Empty onAdd={action("onAdd")} />)
+  //Show allows a user to see an existing appointment
   .add("Show", () => <Show student="Lydia Miller-Jones" interviewer={interviewer} onEdit={action('onEdit')} onDelete={action('onDelete')} />)
-
-
-  //appointment  when it's booked
   //when we want a user to confirm an action
+  .add("Confirm", () => <Confirm message="Delete the appontment?" onConfirm={action('onConfirm')} onCancel={action('onCancel')} />)
   //when it's loading
+  .add("Status", () => <Status message='Deleting' />)
   // when there is an error
+  .add("Error", () => <Error message='Could not delete appointment.' onClose={action('onClose')} />)
+  //FORM components
+  .add("Edit", () => <Form name='Kate' interviewer={interviewer.id} interviewers={interviewers} onSave={action('onSave')} onCancel={action('onCancel')} />)
+
+  .add("Create", () => <Form interviewers={interviewers} onSave={action('onSave')} onCancel={action('onCancel')} />)
+

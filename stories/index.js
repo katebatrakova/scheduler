@@ -170,9 +170,13 @@ storiesOf("Appointment", module)
   .add("Status", () => <Status message='Deleting' />)
   // when there is an error
   .add("Error", () => <Error message='Could not delete appointment.' onClose={action('onClose')} />)
+
   //FORM components
   .add("Create", () => <Form interviewers={interviewers} onSave={action('onSave')} onCancel={action('onCancel')} />)
+
   .add("Edit", () => <Form name='Kate' interviewer={interviewer.id} interviewers={interviewers} onSave={action('onSave')} onCancel={action('onCancel')} />)
+
+
   .add("Appointment Empty", () => (
     <Fragment>
       <Appointment id={1} time="12pm" />

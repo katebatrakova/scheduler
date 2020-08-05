@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"; //a feature that lets us group a list of children without adding extra nodes to the DOM.
+import React from "react"; //a feature that lets us group a list of children without adding extra nodes to the DOM.
 import "components/Appointment/styles.scss";
 
 import Header from "components/Appointment/Header";

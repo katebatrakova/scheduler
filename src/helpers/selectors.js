@@ -1,11 +1,12 @@
 
 
 
-export function getAppointmentsForDay(state, day) {
+export default function getAppointmentsForDay(state, day) {
 
   const filteredDays = []
-  //loop through the days array and push only matching object to the filtered days array
-  Object.keys(state.days).forEach((key, index) => {
+
+  // find the object in our state.days array who's name matches the provided day
+  Object.keys(state.days).forEach((index) => {
     if (state.days[index].name === day) {
       filteredDays.push(state.days[index])
     }
@@ -13,11 +14,11 @@ export function getAppointmentsForDay(state, day) {
   // if nothing was pushed - no matching day, return empty erray and don't continue
   if (filteredDays.length === 0) return [];
 
-
+  // else continue to iterate over appointments for the specific day
   const matchingAppointments = []
 
-
   for (let appointmentId of filteredDays[0].appointments) {
+    // comparewhere it's id matches the id of states.appointments and return that value
     if (state.appointments[appointmentId]) {
       if (appointmentId === state.appointments[appointmentId].id) {
         matchingAppointments.push(state.appointments[appointmentId])

@@ -12,7 +12,6 @@ import InterviewerListItem from "components/InterviewerListItem";
 // ]; + interviewer={}, + setInterviewer={action("setInterviewer")}
 const InterviewerList = (props) => {
   const { interviewers } = props;
-
   const parsedInterviewers = interviewers.map((interviewer) => {
     return (
       <InterviewerListItem

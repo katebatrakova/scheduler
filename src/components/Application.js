@@ -15,6 +15,9 @@ export default function Application(props) {
     appointments: {},
     interviewers: {}
   })
+
+
+
   //function setDay that updates the state with the new day
   const setDay = day => setState({ ...state, day });
   // We don't want to make the Effect request every time the component renders. Instead, we need to remove the dependency. We do that by passing a function to setState.
@@ -34,11 +37,45 @@ export default function Application(props) {
       .then(result => {
 
         setState(prev => ({ days: result[0].data, appointments: result[1].data, interviewers: result[2].data }));
-        console.log(result[0].data, 'result days');
-        console.log(result[1].data, 'result appointments');
-        console.log(result[2].data, 'result interviewers');
+        // console.log(result[0].data, 'result days');
+        // console.log(result[1].data, 'result appointments');
+        // console.log(result[2].data, 'result interviewers');
       });
   }, [])
+
+  //retrieving INTERVIEWERS FUNCTION 
+
+  function getInterviewersForDay(state, day) {
+
+    const filteredDays = []
+
+    // find the object in our state.days array who's name matches the provided day
+    Object.keys(state.days).forEach((index) => {
+      if (state.days[index].name === day) {
+        filteredDays.push(state.days[index])
+      }
+    })
+
+    // if nothing was pushed - no matching day, return empty erray and don't continue
+    if (filteredDays.length === 0) return [];
+
+    // else continue to iterate over appointments for the specific day
+    const matchingInterviewers = []
+
+    for (let interviewerId of filteredDays[0].interviewers) {
+      // comparewhere it's id matches the id of states.appointments and return that value
+      if (state.interviewers[interviewerId]) {
+        if (interviewerId === state.interviewers[interviewerId].id) {
+          matchingInterviewers.push(state.interviewers[interviewerId])
+        }
+      }
+    }
+    return matchingInterviewers;
+  }
+
+  // DECLARING INTERVIEWERS LIST 
+  const interviewers = getInterviewersForDay(state, state.day)
+
 
   return (
     <main className="layout">
@@ -66,8 +103,6 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {
-
-
           // appointments.map((appointment) => { //before
           getAppointmentsForDay(state, state.day) //after
             .map((appointment) => {
@@ -75,7 +110,8 @@ export default function Application(props) {
 
               return (
                 // <Appointment id={appointment.id} time={appointment.time} interview={appointment.interview} />
-                <Appointment key={appointment.id} interview={interview} {...appointment} />
+
+                <Appointment key={appointment.id} interview={interview} interviewers={interviewers}{...appointment} />
               )
             })
 

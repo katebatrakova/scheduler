@@ -46,6 +46,8 @@ export function getInterview(state, interview) {
 }
 
 
+
+
 export function getInterviewersForDay(state, day) {
 
   const filteredDays = []
@@ -71,5 +73,7 @@ export function getInterviewersForDay(state, day) {
       }
     }
   }
+  console.log(matchingInterviewers, 'matchingInterviewers in getInterviewersForDay selector')
+
   return matchingInterviewers;
 }

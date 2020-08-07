@@ -46,3 +46,30 @@ export function getInterview(state, interview) {
 }
 
 
+export function getInterviewersForDay(state, day) {
+
+  const filteredDays = []
+
+  // find the object in our state.days array who's name matches the provided day
+  Object.keys(state.days).forEach((index) => {
+    if (state.days[index].name === day) {
+      filteredDays.push(state.days[index])
+    }
+  })
+
+  // if nothing was pushed - no matching day, return empty erray and don't continue
+  if (filteredDays.length === 0) return [];
+
+  // else continue to iterate over appointments for the specific day
+  const matchingInterviewers = []
+
+  for (let interviewerId of filteredDays[0].interviewers) {
+    // comparewhere it's id matches the id of states.appointments and return that value
+    if (state.interviewers[interviewerId]) {
+      if (interviewerId === state.interviewers[interviewerId].id) {
+        matchingInterviewers.push(state.interviewers[interviewerId])
+      }
+    }
+  }
+  return matchingInterviewers;
+}

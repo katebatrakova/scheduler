@@ -2,10 +2,6 @@ import React from "react";
 import "components/Appointment/styles.scss";
 import Button from "components/Button";
 
-{
-  /* <Confirm message="Delete the appontment?" onConfirm={action('onConfirm')} onCancel={action('onCancel')} />) */
-}
-
 export default function Confirm(props) {
   return (
     <main className="appointment__card appointment__card--confirm">

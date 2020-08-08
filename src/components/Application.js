@@ -4,7 +4,7 @@ import Appointment from "components/Appointment/index";
 import axios from "axios";
 import "components/Application.scss";
 import getAppointmentsForDay from "helpers/selectors.js";
-import getInterview from "helpers/selectors.js";
+// import getInterview from "helpers/selectors.js";
 
 
 export default function Application(props) {
@@ -15,8 +15,6 @@ export default function Application(props) {
     appointments: {},
     interviewers: {}
   })
-
-
 
   //function setDay that updates the state with the new day
   const setDay = day => setState({ ...state, day });
@@ -42,26 +40,43 @@ export default function Application(props) {
         // console.log(result[2].data, 'result interviewers');
       });
   }, [])
+  //SELECTOR FUNCTION GET INTERVIEW
+  function getInterview(state, interview) {
+    // if no interview return null 
+    if (interview === null) return null;
+    //create a copy of interview obj 
+    let updatedInterviewObj = {
+      student: '',
+      interviewer: ''
+
+    }
+    // find out the id of the interviewer
+    updatedInterviewObj = {
+      student: interview.student,
+      interviewer: state.interviewers[interview.interviewer],
+    }
+
+    // const specificInterviewerObj = state.interviewers[interviewerId];
+    //  console.log(specificInterviewerObj, 'specificInterviewerObj', 'interviewer ID is', interviewerId )
+
+    // updatedInterviewObj.interviewer = specificInterviewerObj;
+    return updatedInterviewObj;
+  }
+
 
   //retrieving INTERVIEWERS FUNCTION 
-
   function getInterviewersForDay(state, day) {
-
     const filteredDays = []
-
     // find the object in our state.days array who's name matches the provided day
     Object.keys(state.days).forEach((index) => {
       if (state.days[index].name === day) {
         filteredDays.push(state.days[index])
       }
     })
-
     // if nothing was pushed - no matching day, return empty erray and don't continue
     if (filteredDays.length === 0) return [];
-
     // else continue to iterate over appointments for the specific day
     const matchingInterviewers = []
-
     for (let interviewerId of filteredDays[0].interviewers) {
       // comparewhere it's id matches the id of states.appointments and return that value
       if (state.interviewers[interviewerId]) {
@@ -72,9 +87,49 @@ export default function Application(props) {
     }
     return matchingInterviewers;
   }
-
-  // DECLARING INTERVIEWERS LIST 
+  // INTERVIEWERS LIST 
   const interviewers = getInterviewersForDay(state, state.day)
+
+  //BOOK INTERVIEW
+  function bookInterview(id, interview) {
+    // console.log(id, interview, 'book interview function');
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    // console.log('cool state before', appointments)
+
+
+
+    // request with the interview data in the body
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
+      // .then(response => console.log(response))
+      .then(response => {
+        // console.log('cool state after', appointments)
+        // update the state after request comes back 
+        setState({
+          ...state,
+          appointments
+        })
+      })
+      .catch(err => console.log(err))
+
+  }
+
+  function cancelInterview(id) {
+    console.log(state.appointments[id], 'CANCEL FUNCTION');
+    return axios.delete(`http://localhost:8001/api/appointments/${id}`, 'null')
+      .then(response => { console.log(response) })
+  }
+
+
+
+
 
 
   return (
@@ -103,15 +158,16 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {
-          // appointments.map((appointment) => { //before
           getAppointmentsForDay(state, state.day) //after
             .map((appointment) => {
+
               const interview = getInterview(state, appointment.interview);
+              console.log(interview, 'interview inside getAppointmentsForDay APP.JS')
 
               return (
                 // <Appointment id={appointment.id} time={appointment.time} interview={appointment.interview} />
 
-                <Appointment key={appointment.id} interview={interview} interviewers={interviewers}{...appointment} />
+                <Appointment cancelInterview={cancelInterview} bookInterview={bookInterview} key={appointment.id} interview={interview} interviewers={interviewers}{...appointment} id={appointment.id} time={appointment.time} />
               )
             })
 

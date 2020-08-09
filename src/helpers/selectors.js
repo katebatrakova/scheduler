@@ -136,6 +136,6 @@ export function getInterviewersForDay(state, day) {
   const matchingInterviewers = filteredDays[0].interviewers.map((matchingInterviewer) => {
     return state.interviewers[matchingInterviewer]
   })
-  console.log(matchingInterviewers, 'matching interviewers')
+  // console.log(matchingInterviewers, 'matching interviewers')
   return matchingInterviewers;
 }; 

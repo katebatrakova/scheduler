@@ -4,7 +4,6 @@ import Appointment from "components/Appointment/index";
 import axios from "axios";
 import "components/Application.scss";
 import getAppointmentsForDay from "helpers/selectors.js";
-import getInterviewersForDay from "helpers/selectors.js";
 import getInterview from "helpers/selectors.js";
 
 
@@ -34,7 +33,6 @@ export default function Application(props) {
 
     Promise.all([promise1, promise2, promise3])
       .then(result => {
-
         setState(prev => ({ days: result[0].data, appointments: result[1].data, interviewers: result[2].data }));
         // console.log(result[0].data, 'result days');
         // console.log(result[1].data, 'result appointments');
@@ -98,9 +96,6 @@ export default function Application(props) {
       [id]: appointment
     };
     // console.log('cool state before', appointments)
-
-
-
     // request with the interview data in the body
     return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
       // .then(response => console.log(response))
@@ -112,20 +107,13 @@ export default function Application(props) {
           appointments
         })
       })
-      .catch(err => console.log(err))
 
   }
-
+  // CANCEL INTERVIEW     
   function cancelInterview(id) {
-    console.log(state.appointments[id], 'CANCEL FUNCTION');
     return axios.delete(`http://localhost:8001/api/appointments/${id}`, 'null')
       .then(response => { console.log(response) })
   }
-
-
-
-
-
 
   return (
     <main className="layout">

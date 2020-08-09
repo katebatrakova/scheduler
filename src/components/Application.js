@@ -4,7 +4,8 @@ import Appointment from "components/Appointment/index";
 import axios from "axios";
 import "components/Application.scss";
 import getAppointmentsForDay from "helpers/selectors.js";
-// import getInterview from "helpers/selectors.js";
+import getInterviewersForDay from "helpers/selectors.js";
+import getInterview from "helpers/selectors.js";
 
 
 export default function Application(props) {
@@ -41,52 +42,46 @@ export default function Application(props) {
       });
   }, [])
   //SELECTOR FUNCTION GET INTERVIEW
-  function getInterview(state, interview) {
-    // if no interview return null 
-    if (interview === null) return null;
-    //create a copy of interview obj 
-    let updatedInterviewObj = {
-      student: '',
-      interviewer: ''
+  // function getInterview(state, interview) {
+  //   // if no interview return null 
+  //   if (interview === null) return null;
+  //   //create a copy of interview obj 
+  //   let updatedInterviewObj = {
+  //     student: '',
+  //     interviewer: ''
 
-    }
-    // find out the id of the interviewer
-    updatedInterviewObj = {
-      student: interview.student,
-      interviewer: state.interviewers[interview.interviewer],
-    }
+  //   }
+  //   // find out the id of the interviewer
+  //   updatedInterviewObj = {
+  //     student: interview.student,
+  //     interviewer: state.interviewers[interview.interviewer],
+  //   }
 
-    // const specificInterviewerObj = state.interviewers[interviewerId];
-    //  console.log(specificInterviewerObj, 'specificInterviewerObj', 'interviewer ID is', interviewerId )
+  //   // const specificInterviewerObj = state.interviewers[interviewerId];
+  //   //  console.log(specificInterviewerObj, 'specificInterviewerObj', 'interviewer ID is', interviewerId )
 
-    // updatedInterviewObj.interviewer = specificInterviewerObj;
-    return updatedInterviewObj;
-  }
+  //   // updatedInterviewObj.interviewer = specificInterviewerObj;
+  //   return updatedInterviewObj;
+  // }
 
 
   //retrieving INTERVIEWERS FUNCTION 
   function getInterviewersForDay(state, day) {
     const filteredDays = []
-    // find the object in our state.days array who's name matches the provided day
     Object.keys(state.days).forEach((index) => {
       if (state.days[index].name === day) {
         filteredDays.push(state.days[index])
       }
     })
-    // if nothing was pushed - no matching day, return empty erray and don't continue
+
     if (filteredDays.length === 0) return [];
-    // else continue to iterate over appointments for the specific day
-    const matchingInterviewers = []
-    for (let interviewerId of filteredDays[0].interviewers) {
-      // comparewhere it's id matches the id of states.appointments and return that value
-      if (state.interviewers[interviewerId]) {
-        if (interviewerId === state.interviewers[interviewerId].id) {
-          matchingInterviewers.push(state.interviewers[interviewerId])
-        }
-      }
-    }
+
+    const matchingInterviewers = filteredDays[0].interviewers.map((matchingInterviewer) => {
+      return state.interviewers[matchingInterviewer]
+    })
+    console.log(matchingInterviewers, 'matching interviewers')
     return matchingInterviewers;
-  }
+  };
   // INTERVIEWERS LIST 
   const interviewers = getInterviewersForDay(state, state.day)
 

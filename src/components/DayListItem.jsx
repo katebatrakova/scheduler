@@ -10,6 +10,7 @@ import classnames from "classnames";
 // } + selected + setDay
 
 export default function DayListItem(props) {
+  console.log(props.spots, "props.spots");
   function formatSpots() {
     let spotsRemainingText = props.spots;
     if (props.spots === 0) {

@@ -47,7 +47,6 @@ export default function getAppointmentsForDay(state, day) {
   const matchingAppointments = filteredDays[0].appointments.map((matchingAppointment) => {
     return state.appointments[matchingAppointment]
   })
-  console.log(matchingAppointments, 'matchingAppointments')
   return matchingAppointments;
 };
 

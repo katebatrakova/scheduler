@@ -1,25 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment/index";
 import axios from "axios";
 import "components/Application.scss";
 import getAppointmentsForDay from "helpers/selectors.js";
 import getInterview from "helpers/selectors.js";
+import useApplicationData from "hooks/useApplicationData.js";
 
 
 export default function Application(props) {
-
-  const [state, setState] = useState({
-    day: 'Monday',
-    days: [],
-    appointments: {},
-    interviewers: {}
-  })
-
-  //function setDay that updates the state with the new day
-  const setDay = day => setState({ ...state, day });
-  // We don't want to make the Effect request every time the component renders. Instead, we need to remove the dependency. We do that by passing a function to setState.
-  const setDays = days => setState(prev => ({ ...prev, days }));;
+  const {
+    state,
+    setState,
+    setDay,
+    bookInterview,
+    cancelInterview,
+    spotsLeft
+  } = useApplicationData();
 
   // useEffect doesn't depend on state, no dependency needed
   useEffect(() => {
@@ -34,34 +31,8 @@ export default function Application(props) {
     Promise.all([promise1, promise2, promise3])
       .then(result => {
         setState(prev => ({ days: result[0].data, appointments: result[1].data, interviewers: result[2].data }));
-        // console.log(result[0].data, 'result days');
-        // console.log(result[1].data, 'result appointments');
-        // console.log(result[2].data, 'result interviewers');
       });
   }, [])
-  //SELECTOR FUNCTION GET INTERVIEW
-  // function getInterview(state, interview) {
-  //   // if no interview return null 
-  //   if (interview === null) return null;
-  //   //create a copy of interview obj 
-  //   let updatedInterviewObj = {
-  //     student: '',
-  //     interviewer: ''
-
-  //   }
-  //   // find out the id of the interviewer
-  //   updatedInterviewObj = {
-  //     student: interview.student,
-  //     interviewer: state.interviewers[interview.interviewer],
-  //   }
-
-  //   // const specificInterviewerObj = state.interviewers[interviewerId];
-  //   //  console.log(specificInterviewerObj, 'specificInterviewerObj', 'interviewer ID is', interviewerId )
-
-  //   // updatedInterviewObj.interviewer = specificInterviewerObj;
-  //   return updatedInterviewObj;
-  // }
-
 
   //retrieving INTERVIEWERS FUNCTION 
   function getInterviewersForDay(state, day) {
@@ -77,43 +48,10 @@ export default function Application(props) {
     const matchingInterviewers = filteredDays[0].interviewers.map((matchingInterviewer) => {
       return state.interviewers[matchingInterviewer]
     })
-    console.log(matchingInterviewers, 'matching interviewers')
     return matchingInterviewers;
   };
   // INTERVIEWERS LIST 
   const interviewers = getInterviewersForDay(state, state.day)
-
-  //BOOK INTERVIEW
-  function bookInterview(id, interview) {
-    // console.log(id, interview, 'book interview function');
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-    // console.log('cool state before', appointments)
-    // request with the interview data in the body
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
-      // .then(response => console.log(response))
-      .then(response => {
-        // console.log('cool state after', appointments)
-        // update the state after request comes back 
-        setState({
-          ...state,
-          appointments
-        })
-      })
-
-  }
-  // CANCEL INTERVIEW     
-  function cancelInterview(id) {
-    return axios.delete(`http://localhost:8001/api/appointments/${id}`, 'null')
-      .then(response => { console.log(response) })
-  }
 
   return (
     <main className="layout">
@@ -131,7 +69,6 @@ export default function Application(props) {
             day={state.day}
             setDay={setDay}
           />
-
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
@@ -143,20 +80,14 @@ export default function Application(props) {
         {
           getAppointmentsForDay(state, state.day) //after
             .map((appointment) => {
-
-              const interview = getInterview(state, appointment.interview);
-              console.log(interview, 'interview inside getAppointmentsForDay APP.JS')
-
               return (
-                // <Appointment id={appointment.id} time={appointment.time} interview={appointment.interview} />
-
-                <Appointment cancelInterview={cancelInterview} bookInterview={bookInterview} key={appointment.id} interview={interview} interviewers={interviewers}{...appointment} id={appointment.id} time={appointment.time} />
+                <Appointment spots={spotsLeft} cancelInterview={cancelInterview} bookInterview={bookInterview} key={appointment.id} interview={getInterview(state, appointment.interview)} interviewers={interviewers}{...appointment} id={appointment.id} time={appointment.time} />
               )
             })
-
         }
-      </section>
-    </main>
+        < Appointment key="last" time="5pm" />
+      </section >
+    </main >
   );
 }
 

@@ -6,9 +6,23 @@ import "components/Application.scss";
 import getAppointmentsForDay from "helpers/selectors.js";
 import getInterview from "helpers/selectors.js";
 import useApplicationData from "hooks/useApplicationData.js";
+import PropTypes from "prop-types";
+
 
 
 export default function Application(props) {
+  //Validating Props
+  // Appointment.propTypes = {
+  //   spots: PropTypes.number,
+  //   key: PropTypes.number,
+  //   cancelInterview: PropTypes.func,
+  //   bookInterview: PropTypes.func,
+  //   interview: PropTypes.object,
+  //   interviewers: PropTypes.array,
+  //   id: PropTypes.number,
+  //   time: PropTypes.string
+  // };
+
   const {
     state,
     setState,

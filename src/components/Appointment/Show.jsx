@@ -1,8 +1,6 @@
 import React from "react";
 import "components/Appointment/styles.scss";
 
-//student="Lydia Miller-Jones" interviewer={interviewer} onEdit={action('onEdit')} onDelete={action('onDelete')
-
 export default function Show(props) {
   //helper function to display interviewer's name
   function findInterviewerName(interviewers) {

@@ -1,19 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import getAppointmentsForDay from "helpers/selectors.js";
-
 
 
 //When the Appointment component loads, we want it to be empty, so we need to initialize the mode to EMPTY.
 export default function useApplicationData(initial) {
   const [state, setState] = useState({
-    day: 'Monday',
+    day: "Monday",
     days: [],
     appointments: {},
     interviewers: {}
   })
   const setDay = day => setState({ ...state, day });
-  const setDays = days => setState(prev => ({ ...prev, days }));;
+  // const setDays = days => setState(prev => ({ ...prev, days }));
+
+
+  // useEffect doesn't depend on state, no dependency needed
 
   const allAppointments = getAppointmentsForDay(state, state.day);
 

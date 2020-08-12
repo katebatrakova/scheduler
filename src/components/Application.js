@@ -38,6 +38,8 @@ export default function Application(props) {
     let urlAppointments = 'http://localhost:8001/api/appointments'
     let urlinterviewers = 'http://localhost:8001/api/interviewers'
 
+
+
     const promise1 = axios.get(urlDays)
     const promise2 = axios.get(urlAppointments)
     const promise3 = axios.get(urlinterviewers)

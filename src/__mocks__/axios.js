@@ -57,7 +57,6 @@ const fixtures = {
   }
 };
 //This mock accepts a url argument because it is replacing the actual axios implementation
-// defaults: { baseURL: "" },
 
 export default {
   defaults: { baseURL: "" },
@@ -89,30 +88,9 @@ export default {
     }
   }),
   put: jest.fn(url => {
-    if (url === "http://localhost:8001/api/days") {
-      return Promise.resolve({
-        status: 204,
-        statusText: "No Content",
-        data: fixtures.days
-      });
-    }
-
-    if (url === "http://localhost:8001/api/appointments") {
-      /* Resolve appointments data */
-      return Promise.resolve({
-        status: 204,
-        statusText: "No Content",
-        data: fixtures.appointments
-      });
-    }
-
-    if (url === "http://localhost:8001/api/interviewers") {
-      /* Resolve interviewers data */
-      return Promise.resolve({
-        status: 204,
-        statusText: "No Content",
-        data: fixtures.interviewers
-      });
-    }
+    return Promise.resolve({
+      status: 204,
+      statusText: "No Content"
+    });
   })
 }

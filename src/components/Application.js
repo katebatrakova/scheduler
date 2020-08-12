@@ -46,7 +46,7 @@ export default function Application(props) {
 
     Promise.all([promise1, promise2, promise3])
       .then(result => {
-        setState(prev => ({ days: result[0].data, appointments: result[1].data, interviewers: result[2].data }));
+        setState(prev => ({ ...prev, days: result[0].data, appointments: result[1].data, interviewers: result[2].data }));
       });
   }, [])
 

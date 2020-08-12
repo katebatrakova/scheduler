@@ -15,22 +15,6 @@ export default function useApplicationData(initial) {
   // const setDays = days => setState(prev => ({ ...prev, days }));
 
 
-  // useEffect doesn't depend on state, no dependency needed
-
-  const allAppointments = getAppointmentsForDay(state, state.day);
-
-  const appointmentsBooked = (allAppointments) => {
-    let spotsBooked = 0;
-    for (let app of allAppointments) {
-      if (app.interview) {
-        spotsBooked++;
-      }
-    }
-    return spotsBooked;
-  }
-  const spotsLeft = allAppointments.length - appointmentsBooked(allAppointments)
-
-
   //BOOK INTERVIEW
   function bookInterview(id, interview) {
     // console.log(id, interview, 'book interview function');
@@ -38,6 +22,21 @@ export default function useApplicationData(initial) {
       ...state.appointments[id],
       interview: { ...interview }
     };
+    //make a copy of the days
+    const days = [...state.days]
+    let currentDayIndex = -1;
+    for (let day in days) {
+      if (days[day].appointments.includes(id)) {
+        currentDayIndex = day;
+      }
+    }
+
+    console.log(days, 'days')
+    console.log(days[currentDayIndex], 'daycurrentDayIndex')
+
+    if (!state.appointments[id].interview) {
+      days[currentDayIndex].spots--;
+    }
 
     const appointments = {
       ...state.appointments,
@@ -50,15 +49,33 @@ export default function useApplicationData(initial) {
         // update the state after request comes back 
         setState({
           ...state,
-          appointments
+          appointments, days
         })
       })
   }
   // CANCEL INTERVIEW     
   function cancelInterview(id) {
+    //make a copy of the days
+    const days = [...state.days]
+    let currentDayIndex = -1;
+    for (let day in days) {
+      if (days[day].appointments.includes(id)) {
+        currentDayIndex = day;
+      }
+    }
+
+    if (state.appointments[id].interview) {
+      days[currentDayIndex].spots++;
+    }
+
     return axios.delete(`http://localhost:8001/api/appointments/${id}`, 'null')
-      .then(response => { console.log(response) })
+      .then(response => {
+        setState({
+          ...state,
+          days
+        })
+      })
   }
   // exporting to be used in Application component 
-  return { state, setState, setDay, bookInterview, cancelInterview, spotsLeft };
+  return { state, setState, setDay, bookInterview, cancelInterview };
 }

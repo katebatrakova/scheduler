@@ -10,7 +10,6 @@ import classnames from "classnames";
 // } + selected + setDay
 
 export default function DayListItem(props) {
-  console.log(props.spots, "props.spots");
   function formatSpots() {
     let spotsRemainingText = props.spots;
     if (props.spots === 0) {
@@ -34,7 +33,11 @@ export default function DayListItem(props) {
   );
 
   return (
-    <li className={dayListItemClass} onClick={() => props.setDay(props.name)}>
+    <li
+      data-testid="day"
+      className={dayListItemClass}
+      onClick={() => props.setDay(props.name)}
+    >
       <h2 className="{text--regular}">{props.name}</h2>
       <h3 className="text--light">{formatSpots()}</h3>
     </li>

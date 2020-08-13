@@ -33,7 +33,7 @@ export function getInterview(state, interview) {
   return updatedInterviewObj;
 }
 
-
+//retrieving INTERVIEWERS  
 export function getInterviewersForDay(state, day) {
   const filteredDays = []
   Object.keys(state.days).forEach((index) => {
@@ -49,4 +49,5 @@ export function getInterviewersForDay(state, day) {
   })
 
   return matchingInterviewers;
-}; 
+};
+

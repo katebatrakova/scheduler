@@ -4,23 +4,13 @@ import Appointment from "components/Appointment/index";
 import axios from "axios";
 import "components/Application.scss";
 import getAppointmentsForDay from "helpers/selectors.js";
+import { getInterviewersForDay } from "helpers/selectors.js";
 import getInterview from "helpers/selectors.js";
 import useApplicationData from "hooks/useApplicationData.js";
 
 
 
 export default function Application(props) {
-  //Validating Props
-  // Appointment.propTypes = {
-  //   spots: PropTypes.number,
-  //   key: PropTypes.number,
-  //   cancelInterview: PropTypes.func,
-  //   bookInterview: PropTypes.func,
-  //   interview: PropTypes.object,
-  //   interviewers: PropTypes.array,
-  //   id: PropTypes.number,
-  //   time: PropTypes.string
-  // };
 
   const {
     state,
@@ -49,22 +39,6 @@ export default function Application(props) {
       });
   }, [])
 
-  //retrieving INTERVIEWERS FUNCTION 
-  function getInterviewersForDay(state, day) {
-    const filteredDays = []
-    Object.keys(state.days).forEach((index) => {
-      if (state.days[index].name === day) {
-        filteredDays.push(state.days[index])
-      }
-    })
-
-    if (filteredDays.length === 0) return [];
-
-    const matchingInterviewers = filteredDays[0].interviewers.map((matchingInterviewer) => {
-      return state.interviewers[matchingInterviewer]
-    })
-    return matchingInterviewers;
-  };
   // INTERVIEWERS LIST 
   const interviewers = getInterviewersForDay(state, state.day)
 

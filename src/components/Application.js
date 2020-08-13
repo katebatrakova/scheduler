@@ -6,7 +6,6 @@ import "components/Application.scss";
 import getAppointmentsForDay from "helpers/selectors.js";
 import getInterview from "helpers/selectors.js";
 import useApplicationData from "hooks/useApplicationData.js";
-import PropTypes from "prop-types";
 
 
 

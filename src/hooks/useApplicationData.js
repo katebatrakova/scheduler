@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
-import getAppointmentsForDay from "helpers/selectors.js";
+// import getAppointmentsForDay from "helpers/selectors.js";
 
 
 //When the Appointment component loads, we want it to be empty, so we need to initialize the mode to EMPTY.
@@ -17,7 +17,6 @@ export default function useApplicationData(initial) {
 
   //BOOK INTERVIEW
   function bookInterview(id, interview) {
-    // console.log(id, interview, 'book interview function');
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -31,9 +30,6 @@ export default function useApplicationData(initial) {
       }
     }
 
-    console.log(days, 'days')
-    console.log(days[currentDayIndex], 'daycurrentDayIndex')
-
     if (!state.appointments[id].interview) {
       days[currentDayIndex].spots--;
     }
@@ -44,7 +40,6 @@ export default function useApplicationData(initial) {
     };
     // request with the interview data in the body
     return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
-      // .then(response => console.log(response))
       .then(response => {
         // update the state after request comes back 
         setState({

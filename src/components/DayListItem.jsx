@@ -2,13 +2,6 @@ import React from "react";
 import "components/DayListItem.scss";
 import classnames from "classnames";
 
-// DayList passes these props
-// {
-//   id: 1,
-//   name: "Monday",
-//   spots: 2,
-// } + selected + setDay
-
 export default function DayListItem(props) {
   function formatSpots() {
     let spotsRemainingText = props.spots;

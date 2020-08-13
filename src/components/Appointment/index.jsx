@@ -24,7 +24,6 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
-  // console.log(props, "APPOINTMENT component props");
   //SAVE function to be passed to the Form component
   //Form should capture the name and interviewer and pass them to props.onSave as arguments
   function save(name, interviewer) {
@@ -32,7 +31,6 @@ export default function Appointment(props) {
       student: name,
       interviewer: interviewer,
     };
-    // console.log("cool interview in save", interview);
     // show the SAVING indicator to handle longer requests
     transition(SAVING);
 
@@ -51,7 +49,6 @@ export default function Appointment(props) {
       .catch((error) => transition(ERROR_DELETE, true));
   }
 
-  // console.log(props, "Appointment(props)");
   return (
     <article data-testid="appointment" className="appointment">
       <Header time={props.time} />
@@ -120,11 +117,3 @@ export default function Appointment(props) {
     </article>
   );
 }
-
-// const interviewer = {
-//   id: 1,
-//   name: "Sylvia Palmer",
-//   avatar: "https://i.imgur.com/LpaY82x.png",
-// };
-
-// interview={{ student: "Lydia Miller-Jones", interviewer }

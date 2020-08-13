@@ -11,7 +11,6 @@ export default function Show(props) {
     }
   }
 
-  // console.log(props, "props of SHOW");
   return (
     <main className="appointment__card appointment__card--show">
       <section className="appointment__card-left" data-testid="student_name">

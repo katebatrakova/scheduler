@@ -2,8 +2,8 @@ import React from "react";
 import { render, cleanup, fireEvent } from "@testing-library/react";
 import Application from "components/Application";
 import { waitForElement } from "@testing-library/react";
-import { getByText, queryByAltText, getAllByAltText, queryByText, getByLabelText, getAllByTestId, getByPlaceholderText, getByDisplayValue, getByAltText, getByTitle, getByRole } from "@testing-library/react";
-import { prettyDOM } from '@testing-library/react'
+import { getByText, queryByAltText, getAllByAltText, queryByText, getAllByTestId, getByPlaceholderText, getByAltText } from "@testing-library/react";
+// import { prettyDOM } from '@testing-library/react'
 
 import axios from "axios";
 
@@ -28,7 +28,7 @@ describe("Application", () => {
 
   it("loads data, books an interview and reduces the spots remaining for Monday by 1", async () => {
     // 1. Render the Application.
-    const { container, debug } = render(<Application />);
+    const { container } = render(<Application />);
     // 2. Wait until the text "Archie Cohen" is displayed.
     await waitForElement(() => getByText(container, "Archie Cohen"));
     const appointments = getAllByTestId(container, "appointment");
@@ -58,7 +58,7 @@ describe("Application", () => {
 
   it("loads data, cancels an interview and increases the spots remaining for Monday by 1", async () => {
     // 1. Render the Application.
-    const { container, debug } = render(<Application />);
+    const { container } = render(<Application />);
     // 2. Wait until the text "Archie Cohen" is displayed.
     await waitForElement(() => getByText(container, "Archie Cohen"));
     // 3. Click the "Delete" button on the booked appointment.
@@ -85,7 +85,7 @@ describe("Application", () => {
 
   it("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
     // 1. Render the Application.
-    const { container, debug } = render(<Application />);
+    const { container } = render(<Application />);
     // 2. Wait until the text "Archie Cohen" is displayed.
     await waitForElement(() => getByText(container, "Archie Cohen"));
     // // 3. Click the "Edit" button on the booked appointment.
@@ -110,9 +110,12 @@ describe("Application", () => {
 
   // mockRejectedValueOnce() used to mock to revert to the default behaviour after the single request that this test generates is complete. 
   // This replaces the mock from our src / __mocks__ / axios.js module temporarily, until the put function is called once.
-  it("shows the save error when failing to save an appointment", () => {
-    axios.put.mockRejectedValueOnce();
+  it("shows the save error when failing to save an appointment", async () => {
+    await axios.put.mockRejectedValueOnce("Could not save the appointment. Try again");
   });
+
+
+
   //fake the delete mock rejection 
   it("shows the delete error when failing to delete an existing appointment", () => {
     axios.delete.mockRejectedValueOnce();

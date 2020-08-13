@@ -1,24 +1,6 @@
 import React from "react";
 import DayListItem from "components/DayListItem";
 
-// App js passes to DayList these props
-
-// [{
-//   id: 1,
-//   name: "Monday",
-//   spots: 2,
-// },
-// {
-//   id: 2,
-//   name: "Tuesday",
-//   spots: 5,
-// },
-// {
-//   id: 3,
-//   name: "Wednesday",
-//   spots: 0,
-// }], + useState's day + useState's setDay
-
 //The DayList is responsible for rendering a list of DayListItem components.
 export default function DayList(props) {
   const { days } = props;

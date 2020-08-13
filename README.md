@@ -1,5 +1,7 @@
 # Interview Scheduler
 
+This modern React application called Scheduler allows users to book and cancel interviews. It was built using React library, Webpack Dev Server, Storybook, Babel, Axios, Jest, Cypress.
+
 ## Setup
 
 Install dependencies with `npm install`.

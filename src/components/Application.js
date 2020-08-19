@@ -14,30 +14,14 @@ export default function Application(props) {
 
   const {
     state,
-    setState,
     setDay,
     bookInterview,
     cancelInterview,
     spotsLeft
   } = useApplicationData();
 
-  // useEffect doesn't depend on state, no dependency needed
-  useEffect(() => {
-    let urlDays = 'http://localhost:8001/api/days'
-    let urlAppointments = 'http://localhost:8001/api/appointments'
-    let urlinterviewers = 'http://localhost:8001/api/interviewers'
+  console.log(state.appointments, 'state.appointments before delete')
 
-
-
-    const promise1 = axios.get(urlDays)
-    const promise2 = axios.get(urlAppointments)
-    const promise3 = axios.get(urlinterviewers)
-
-    Promise.all([promise1, promise2, promise3])
-      .then(result => {
-        setState(prev => ({ ...prev, days: result[0].data, appointments: result[1].data, interviewers: result[2].data }));
-      });
-  }, [])
 
   // INTERVIEWERS LIST 
   const interviewers = getInterviewersForDay(state, state.day)
@@ -70,7 +54,7 @@ export default function Application(props) {
           getAppointmentsForDay(state, state.day) //after
             .map((appointment) => {
               return (
-                <Appointment spots={spotsLeft} cancelInterview={cancelInterview} bookInterview={bookInterview} key={appointment.id} interview={getInterview(state, appointment.interview)} interviewers={interviewers}{...appointment} id={appointment.id} time={appointment.time} />
+                < Appointment spots={spotsLeft} cancelInterview={cancelInterview} bookInterview={bookInterview} key={appointment.id} interview={getInterview(state, appointment.interview)} interviewers={interviewers}{...appointment} id={appointment.id} time={appointment.time} />
               )
             })
         }

@@ -2,7 +2,7 @@ describe("Appointments", () => {
   //separate the common test commands 
   beforeEach(() => {
     //reset the db in the beginning
-    cy.request("GET", "http://localhost:8001/api/debug/reset")
+    cy.request("GET", "/api/debug/reset")
 
     //visit the root of the web server
     cy.visit("/");
